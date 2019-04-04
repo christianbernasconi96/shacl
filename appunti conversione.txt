@@ -1,0 +1,14 @@
+Ecco qua:
+•	Le triple subject type predicate e object type                       :  datatype-akp.txt e object-akp.txt
+•	Le occorrenze di ogni subject type, predicate e object type  :  count-concepts.txt* count-datatype.txt count-datatype-properties.txt count-object-properties.txt  
+•	Le frequenze e  le istanze                                                    :  datatype-akp.txt e object-akp.txt (l'intero dopo ##)        (patterns_splitMode_datatype.txt  e patterns_splitMode_object.txt)**
+•	I min max avg subjs-obj,	I min max avg subj-objs 		: pattern-cardinalities.txt sono così rappresentate: C##P##D Max subjs-obj - Avg subjs-obj - Min subjs-obj - Max subj-objs - Avg subj-objs - Min subj-objs                                                    
+
+
+*Dato un Summary sono conteggiati solo i concetti definiti nell'ontologia e quelli coinvolti in relazione di SubClassOf o EquivalentClass, Sono esclusi owl:Thing e tutti gli altri. In questo caso abbiamo "http://www.opengis.net/gml/_Feature" che non viene considerato nel calcolo della frequenza.
+** Questi due file contengono pattern minimali e inferiti e quindi sono un sovrainsieme di datatype-akp.txt e object-akp.txt.  Alla fine di ogni pattern abbiamo due interi  ##frequency##instances. Se il pattern non è minimale allora avrà frequency=0.
+
+
+https://www.tutorialspoint.com/hbase/index.htm
+https://www.tutorialspoint.com/spark_sql/index.htm
+https://www.tutorialspoint.com//cassandra/index.htm

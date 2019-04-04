@@ -1,0 +1,11 @@
+*.class
+*.log
+*.ttl
+
+.project
+.classpath
+.cache
+
+./bin
+
+./logs
