@@ -1,0 +1,3 @@
+sh:ShapesFailed FocusNode: :bob LiteralValue("Property shape failed")
+sh:MaxCountConstraintComponent FocusNode: :bob LiteralValue("MaxCount violation. Expected 1, obtained: 2")
+sh:ShapesFailed FocusNode: :bob LiteralValue("<http://example.org/bob> does not have nodeShape http://example.org/User because some shapes failed.")

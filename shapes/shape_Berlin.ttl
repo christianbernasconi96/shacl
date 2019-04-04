@@ -1,0 +1,18 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+dbo:City a sh:NodeShape;
+	sh:targetClass dbo:City ;
+	sh:property [
+		sh:message "Vincolo cardinalita diretta (subj-objs) violato" ;
+		sh:path dbo:leaderParty ;
+		sh:qualifiedValueShape [ sh:datatype rdfs:Literal ; ];
+		sh:qualifiedMinCount 1 ;
+		sh:qualifiedMaxCount 1 ;
+		sh:severity sh:Warning ;
+	];
+.
+
+

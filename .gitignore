@@ -1,6 +1,6 @@
 *.class
 *.log
-*.ttl
+# *.ttl
 
 .project
 .classpath
