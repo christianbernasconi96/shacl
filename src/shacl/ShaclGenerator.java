@@ -24,7 +24,7 @@ public class ShaclGenerator {
 
 	/*** Metodo che genera un UNICO file shacl raggruppando PER OGNI subject le rispettive properties
 	 * 
-	 *  @param inPath percorso in cui sono contenuti i file del summary e il file prefixes.txt
+	 *  @param inPath percorso in cui sono contenuti i file del summary
 	 *  @param outPath percorso in cui si intende salvare il file shacl
 	 *   
 	 * @throws FileNotFoundException */
@@ -121,7 +121,7 @@ public class ShaclGenerator {
 
 	/**
 	 *  Metodo che genera un file shacl per ogni pattern <subject, property, object> presente in patternCardinalities.txt .
-	 *  @param inPath percorso in cui sono contenuti i file del summary e il file prefixes.txt
+	 *  @param inPath percorso in cui sono contenuti i file del summary
 	 *  @param outPath percorso in cui si intendono salvare i file shacl generati per ogni pattern
 	 *   */
 	public static void generateShacl(String inPath, String outPath) throws FileNotFoundException {

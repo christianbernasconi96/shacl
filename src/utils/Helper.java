@@ -23,7 +23,7 @@ public class Helper {
 
 	/** Costruttore
 	 * 
-	 * @param path percorso che contiene i file del summary e il file prefixes.txt 
+	 * @param path percorso che contiene i file del summary 
 	 * @param grouped settare a true per abilitare il caricamento in memoria e l'aggregazione di tutti i pattern 
 	 */
 	public Helper(String path, boolean grouped) throws FileNotFoundException {
@@ -37,7 +37,7 @@ public class Helper {
 	}
 
 	private void init(String path, boolean grouped) throws FileNotFoundException {
-		initPrefixes(path);
+		initPrefixes();
 		initDatatypes(path);
 		initConcepts(path);
 		// evita di caricare tutto il summary
@@ -154,14 +154,14 @@ public class Helper {
 		countDatatypes.close();
 	}
 
-	private void initPrefixes(String path) throws FileNotFoundException {
+	private void initPrefixes() throws FileNotFoundException {
 
 		String line;
 		String[] splittedLine;
 		String url;
 		String prefix;
 		// TODO: prendere prefixes da un path a parte
-		Scanner prefixes = new Scanner(new File(path + "prefixes.txt"));
+		Scanner prefixes = new Scanner(new File("./prefixes/prefixes.txt"));
 
 		while(prefixes.hasNextLine()) {
 			// url prefix
