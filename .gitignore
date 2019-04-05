@@ -6,6 +6,6 @@
 .classpath
 .cache
 
-./bin
+bin/
 
-./logs
+logs/
