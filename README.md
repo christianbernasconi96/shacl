@@ -1,5 +1,7 @@
 # shacl
 ## Utilizzo
+Per poter utilizzare ShaclGenerator è necessaria la presenza del file prefixes/prefixes.txt nella directory del progetto.
+I percorsi dei file di summary (.txt), di shapes (.ttl), del dataset da validare (.ttl) e del validation report (.ttl) vengono invece specificati ai metodi dall'utente.
 ### Generazione shape
 La generazione di shape viene effettuata tramite i metodi statici della classe ShaclGenerator.
 È possibile sia generare un file shape per ogni pattern presente nel summary che generare un unico file contenente tutte le shapes in modo compatto.
