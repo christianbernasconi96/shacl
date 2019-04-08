@@ -7,7 +7,7 @@ dbo:City a sh:NodeShape;
 	sh:targetClass dbo:City ;
 	sh:property [
 		sh:message "Vincolo cardinalita diretta (subj-objs) violato" ;
-		sh:path dbo:leaderParty ;
+		sh:path dbo:areaCode ;
 		sh:qualifiedValueShape [ sh:datatype rdfs:Literal ; ];
 		sh:qualifiedMinCount 1 ;
 		sh:qualifiedMaxCount 1 ;
