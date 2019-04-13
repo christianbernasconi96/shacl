@@ -20,6 +20,9 @@ public class Main {
 
 		// Test validator by url
 		testValidateDataUrlSchemaPath("http://dbpedia.org/data/Berlin.ttl", "./shapes/shape_Berlin.ttl", "./reports/report_Berlin.ttl");
+		
+		// Test validate all
+		testValidateAll("./data/dataset_demo.ttl", "./shapes/", "./reports/");
 
 	}
 
@@ -78,6 +81,21 @@ public class Main {
 
 		try {
 			ShaclValidator.validateDataUrlSchemaPath(dataUrl, schemaPath, reportPath);
+		} catch (IOException e) {
+			System.out.println("\tExecution failed.");
+			e.printStackTrace();
+		}
+
+		long endTime = System.currentTimeMillis();		
+		System.out.println("\tExecution time: " + (endTime - startTime) + "ms");
+	}
+	
+	public static void testValidateAll(String dataPath, String schemaFolderPath, String reportPath) {
+		System.out.println("Shacl validator (all by path)");	
+		long startTime = System.currentTimeMillis();
+
+		try {
+			ShaclValidator.validateAll(dataPath, schemaFolderPath, reportPath);
 		} catch (IOException e) {
 			System.out.println("\tExecution failed.");
 			e.printStackTrace();

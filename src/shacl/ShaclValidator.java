@@ -1,6 +1,7 @@
 package shacl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -85,7 +86,7 @@ public class ShaclValidator {
 				+ " " + schemaOpt + " " + schema 
 				+ " -f " + report
 				+ " --engine ShaClex --showValidationReport";
-
+		
 		Runtime rt = Runtime.getRuntime();
 		Process pr = rt.exec(cmd);
 		
@@ -99,7 +100,28 @@ public class ShaclValidator {
 		}  
 		
 		input.close();  
-		
+		pr.destroy();
 
+
+	}
+	
+	/**
+	 * Test validazione scorrendo tutti i file shape.ttl
+	 * @param dataPath
+	 * @param schemaFolderPath
+	 * @param reportFolderPath
+	 * @throws IOException
+	 */
+	public static void validateAll(String dataPath, String schemaFolderPath, String reportFolderPath) throws IOException {
+		final File folder = new File(schemaFolderPath);
+		
+		for (final File fileEntry : folder.listFiles()) {
+			
+	        if (fileEntry.isFile()) { //TODO: togliere if dopo test
+	            //System.out.println(fileEntry.getName());
+	        	validateDataPathSchemaPath(dataPath, schemaFolderPath + fileEntry.getName(), reportFolderPath + fileEntry.getName());
+	        }
+	        
+	    }
 	}
 }
