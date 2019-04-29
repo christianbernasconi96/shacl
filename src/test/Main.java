@@ -5,10 +5,18 @@ import java.io.IOException;
 
 import shacl.ShaclGenerator;
 import shacl.ShaclValidator;
+import utils.PredictionSimulator;
 
 public class Main {
 	public static void main(String[] args) {
-
+		
+		try {
+			PredictionSimulator.simulatePrediction("./pattern/");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// Test generator
 		testGenerateShacl("./pattern/", "./shapes/");
 		
@@ -27,12 +35,7 @@ public class Main {
 		// Test validate all
 		// testValidateAll("./data/dataset_demo.ttl", "./shapes/", "./reports/");
 		
-		try {
-			ShaclGenerator.simulatePrediction("./pattern/");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 	}
 
