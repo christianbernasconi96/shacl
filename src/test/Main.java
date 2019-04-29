@@ -44,7 +44,7 @@ public class Main {
 		long startTime = System.currentTimeMillis();
 
 		try {
-			ShaclGenerator.generateGroupedShacl("./pattern/", "./shapes/");
+			ShaclGenerator._old_generateGroupedShacl("./pattern/", "./shapes/");
 
 		} catch (FileNotFoundException e) {
 			System.out.println("\tExecution failed.");
@@ -78,7 +78,7 @@ public class Main {
 		long startTime = System.currentTimeMillis();
 
 		try {
-			ShaclGenerator.generateOneShacl(inPath, outPath);
+			ShaclGenerator._old_generateOneShacl(inPath, outPath);
 
 		} catch (FileNotFoundException e) {
 			System.out.println("\tExecution failed.");

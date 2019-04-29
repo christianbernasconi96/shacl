@@ -28,7 +28,7 @@ public class ShaclGenerator {
 	 *  @param outPath percorso in cui si intende salvare il file shacl
 	 *   
 	 * @throws FileNotFoundException */
-	public static void generateGroupedShacl(String inPath, String outPath) throws FileNotFoundException { // TOGLIERE COMMENTO IN Helper.init() PER UTILIZZARE
+	public static void _old_generateGroupedShacl(String inPath, String outPath) throws FileNotFoundException { // TOGLIERE COMMENTO IN Helper.init() PER UTILIZZARE
 
 		OutputManager outputManager = new OutputManager(outPath);
 		// grouped=false per permettere il caricamento e l'aggregazione dei pattern
@@ -267,7 +267,7 @@ public class ShaclGenerator {
 	 *  @param inPath percorso in cui sono contenuti i file del summary
 	 *  @param outPath percorso in cui si intendono salvare il file shacl generato
 	 *   */
-	public static void generateOneShacl(String inPath, String outPath) throws FileNotFoundException {
+	public static void _old_generateOneShacl(String inPath, String outPath) throws FileNotFoundException {
 		// TODO: spostare codice duplicato in funzione privata
 		// TODO: sistemare prefissi
 		OutputManager outputManager = new OutputManager(outPath);
