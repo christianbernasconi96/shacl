@@ -11,7 +11,7 @@ public class OutputManager {
 	}
 	
 	public void write(String filename, String output) throws FileNotFoundException {
-		writer = new PrintWriter(path + filename);
+		writer = new PrintWriter(path + "/" + filename);
 		// writer.flush();
 		writer.println(output);
 		writer.close();
