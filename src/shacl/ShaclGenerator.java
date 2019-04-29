@@ -134,7 +134,6 @@ public class ShaclGenerator {
 
 		String line; 
 		String[] splittedLine;
-		String[] splittedCardinalities;
 		String subjectURI = null;
 		String propertyURI = null;
 		String objectURI = null;
@@ -144,12 +143,10 @@ public class ShaclGenerator {
 		String subject = null;
 		String property = null;
 		String object = null;
-		String minSubjsObj = null;
+		String minSubjsObj = "1";
 		String maxSubjsObj = null;
-		String avgSubjsObj = null;
-		String minSubjObjs = null;
+		String minSubjObjs = "1";
 		String maxSubjObjs = null;
-		String avgSubjObjs = null;
 
 		Scanner predictedCardinalities = new Scanner(new File(patternsPath + "/predictedCardinalities.txt"));
 
@@ -157,11 +154,11 @@ public class ShaclGenerator {
 			result = "";
 			// System.out.println(patternCardinalities.nextLine());
 
-			// subject##property##object## maxSubjsObj-maxSubjObjs
+			// subject##property##object##maxSubjsObj##maxSubjObjs
 			line = predictedCardinalities.nextLine(); 
 
 			// divido in 4 sezioni la linea
-			splittedLine = line.split("(##)|( )");
+			splittedLine = line.split("##");
 
 			// estraggo tripla <S, P, O> 
 			subjectURI = splittedLine[0];
@@ -189,11 +186,9 @@ public class ShaclGenerator {
 			object = helper.convertURI(objectURI);
 			property = helper.convertURI(propertyURI);
 
-			// divido la sezione delle cardinalita
-			splittedCardinalities = splittedLine[3].split("-");
 			// estraggo cardinalita
-			maxSubjsObj = splittedCardinalities[0];
-			maxSubjObjs = splittedCardinalities[1];
+			maxSubjsObj = splittedLine[3];
+			maxSubjObjs = splittedLine[4];
 
 
 			// genero nodo

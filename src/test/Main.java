@@ -21,10 +21,10 @@ public class Main {
 		testGenerateShacl("./pattern/", "./shapes/");
 		
 		// Test grouped generator
-		testGenerateGroupedShacl("./pattern/", "./shapes/");
+		//testGenerateGroupedShacl("./pattern/", "./shapes/");
 		
 		// Test one shacl generator
-		testGenerateOneShacl("./pattern/", "./shapes/");
+		//testGenerateOneShacl("./pattern/", "./shapes/");
 				
 		// Test validator by path
 		testValidateDataPathSchemaPath("./data/dataset_demo.ttl", "./shapes/shape_demo.ttl", "./reports/report_demo.ttl");

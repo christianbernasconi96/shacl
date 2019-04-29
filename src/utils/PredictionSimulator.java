@@ -8,50 +8,41 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class PredictionSimulator {
-public static void simulatePrediction(String patternsPath) throws IOException {
+	public static void simulatePrediction(String patternsPath) throws IOException {
 
 		String line; 
 		String[] splittedLine;
-		String[] splittedCardinalities;
 		String akp;
-		
-		int minSubjsObj;
 		int maxSubjsObj;
 		int avgSubjsObj;
-		int minSubjObjs;
 		int maxSubjObjs;
 		int avgSubjObjs;
 		int maxSubjsObjPredicted;
 		int maxSubjObjsPredicted;
+
 		// input
 		Scanner patternCardinalities = new Scanner(new File(patternsPath + "/patternCardinalities.txt"));
 		// output
 		PrintWriter pw = new PrintWriter(new FileWriter(patternsPath + "/predictedCardinalities.txt"));
-		
+
 		while (patternCardinalities.hasNextLine()) {
-			// subject##property##object## maxSubjsObjPredicted-maxSubjObjsPredicted
+			// line = subject##property##object## maxSubjsObjPredicted-maxSubjObjsPredicted
 			line = patternCardinalities.nextLine(); 
 
-			splittedLine = line.split(" ");
+			splittedLine = line.split("##");
 
-			// estraggo tripla <S, P, O> 
-			akp = splittedLine[0];
+			akp = splittedLine[0] + "##" + splittedLine[1] + "##" + splittedLine[2];
 
-			// divido la sezione delle cardinalita
-			splittedCardinalities = splittedLine[1].split("-");
-			// estraggo cardinalita
-			minSubjsObj = Integer.parseInt(splittedCardinalities[0]);
-			maxSubjsObj = Integer.parseInt(splittedCardinalities[1]);
-			avgSubjsObj = Integer.parseInt(splittedCardinalities[2]);
-			minSubjObjs = Integer.parseInt(splittedCardinalities[3]);
-			maxSubjObjs = Integer.parseInt(splittedCardinalities[4]);
-			avgSubjObjs = Integer.parseInt(splittedCardinalities[5]);
-			
-			// simulo previsione
+			maxSubjsObj = Integer.parseInt(splittedLine[4]);
+			avgSubjsObj = Integer.parseInt(splittedLine[5]);
+			maxSubjObjs = Integer.parseInt(splittedLine[7]);
+			avgSubjObjs = Integer.parseInt(splittedLine[8]);
+
+			// prediction
 			maxSubjsObjPredicted = maxSubjsObj > 2 * avgSubjsObj ? 2 * avgSubjsObj : maxSubjsObj;
 			maxSubjObjsPredicted = maxSubjObjs > 2 * avgSubjObjs ? 2 * avgSubjObjs : maxSubjObjs;
-			
-			pw.println(akp + " " + maxSubjsObjPredicted + "-" + maxSubjObjsPredicted);
+
+			pw.println(akp + "##" + maxSubjsObjPredicted + "##" + maxSubjObjsPredicted);
 			// pw.flush();
 		}
 
