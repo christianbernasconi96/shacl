@@ -1,3 +1,1 @@
-sh:ShapesFailed FocusNode: <http://dbpedia.org/resource/Berlin> LiteralValue("<http://dbpedia.org/resource/Berlin> does not have nodeShape http://dbpedia.org/ontology/City because some shapes failed.")
-sh:ShapesFailed FocusNode: <http://dbpedia.org/resource/Berlin> LiteralValue("Property shape failed")
-sh:QualifiedShapeConstraintComponent FocusNode: <http://dbpedia.org/resource/Berlin> LiteralValue("qualified shape error. Expected <http://dbpedia.org/resource/Berlin> to satisfy qualifiedValueShape. Value = 0, min: 1, max: 1")
+Error: MsgError(getSHACLInstances: Not implemented at Endpoint, node <http://dbpedia.org/ontology/City>)

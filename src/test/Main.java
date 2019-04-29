@@ -27,7 +27,12 @@ public class Main {
 		// Test validate all
 		// testValidateAll("./data/dataset_demo.ttl", "./shapes/", "./reports/");
 		
-		
+		try {
+			ShaclGenerator.simulatePrediction("./pattern/");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

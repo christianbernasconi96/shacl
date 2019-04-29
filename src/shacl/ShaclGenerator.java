@@ -115,17 +115,161 @@ public class ShaclGenerator {
 			result += "." + NL + NL;
 		}
 
-		outputManager.write("shapes.ttl", result);
+		outputManager.write("groupedShapes.ttl", result);
 
 	}
 
 	/**
 	 *  Metodo che genera un file shacl per ogni pattern <subject, property, object> presente in patternCardinalities.txt .
-	 *  @param inPath percorso in cui sono contenuti i file del summary
+	 *  @param patternsPath percorso in cui sono contenuti i file del summary
 	 *  @param outPath percorso in cui si intendono salvare i file shacl generati per ogni pattern
 	 *   */
-	public static void generateShacl(String inPath, String outPath) throws FileNotFoundException {
+	public static void generateShacl(String patternsPath, String outPath) throws FileNotFoundException {
+		// TODO: spostare codice duplicato in funzione privata
+		OutputManager outputManager = new OutputManager(outPath);
+		// false=true per ottimizzare evitando il caricamento in memoria e l'aggregazione dei pattern
+		Helper helper = new Helper(patternsPath, false);
 
+		String result = null;
+
+		String line; 
+		String[] splittedLine;
+		String[] splittedCardinalities;
+		String subjectURI = null;
+		String propertyURI = null;
+		String objectURI = null;
+		String subjectNS = null;
+		String objectNS = null;
+		String propertyNS = null;
+		String subject = null;
+		String property = null;
+		String object = null;
+		String minSubjsObj = null;
+		String maxSubjsObj = null;
+		String avgSubjsObj = null;
+		String minSubjObjs = null;
+		String maxSubjObjs = null;
+		String avgSubjObjs = null;
+
+		Scanner predictedCardinalities = new Scanner(new File(patternsPath + "/predictedCardinalities.txt"));
+
+		while (predictedCardinalities.hasNextLine()) {
+			result = "";
+			// System.out.println(patternCardinalities.nextLine());
+
+			// subject##property##object## maxSubjsObj-maxSubjObjs
+			line = predictedCardinalities.nextLine(); 
+
+			// divido in 4 sezioni la linea
+			splittedLine = line.split("(##)|( )");
+
+			// estraggo tripla <S, P, O> 
+			subjectURI = splittedLine[0];
+			propertyURI = splittedLine[1];
+			objectURI = splittedLine[2];
+
+			// aggiungo prefissi
+			subjectNS = Helper.extractNamespace(subjectURI);
+			objectNS = Helper.extractNamespace(objectURI);
+			propertyNS = Helper.extractNamespace(propertyURI);
+			Set<String> nss = new HashSet<String>();
+			// nss.add("http://www.w3.org/ns/shacl#"); // shacl namespace
+			nss.add(subjectNS);
+			nss.add(objectNS);
+			nss.add(propertyNS);
+			result += "@prefix sh: <http://www.w3.org/ns/shacl#> ." + NL;
+			for(String ns : nss) {
+				result += "@prefix "+ helper.getPrefix(ns) + ": <" + ns + "> ." + NL;
+			}
+
+			result += NL;
+
+			// trasformo URI in prefix:name
+			subject = helper.convertURI(subjectURI);
+			object = helper.convertURI(objectURI);
+			property = helper.convertURI(propertyURI);
+
+			// divido la sezione delle cardinalita
+			splittedCardinalities = splittedLine[3].split("-");
+			// estraggo cardinalita
+			maxSubjsObj = splittedCardinalities[0];
+			maxSubjObjs = splittedCardinalities[1];
+
+
+			// genero nodo
+			// Costruisco sh:NodeShape
+			// result +="<" + subject + ">a sh:NodeShape, rdfs:Class;" + NL; // shortcut
+			result += subject + " a sh:NodeShape;" + NL;
+			result += TAB_1 + "sh:targetClass " + subject + " ;" + NL;
+
+
+			//System.out.println(TAB_2 + object);
+
+			// Costruisco sh:Property
+			result += TAB_1 + "sh:property [" + NL;
+			// result += TAB_2 + "sh:name \"%subj_prop_obj?%\" ;" + NL;
+			// result += TAB_2 + "sh:description \"%subj_prop_obj subj-objs?%\" ;" + NL;
+			result += TAB_2 + "sh:message \"Vincolo cardinalita diretta (subj-objs) violato\" ;" + NL;
+			result += TAB_2 + "sh:path " + property + " ;" + NL;
+			// result += TAB_2 + "sh:nodeKind sh:IRI;" + NL; // ridondante
+
+			// ogni object a cui punta la property corrisponde a una partizione sh:qualifiedValueShape
+			if(helper.isDatatype(object)) {
+				result += TAB_2 + "sh:qualifiedValueShape [ sh:datatype " + object + " ; ];" + NL;
+			}
+			else {
+				result += TAB_2 + "sh:qualifiedValueShape [ sh:class " + object + " ; ];" + NL;
+			}
+
+
+			// cardinalita subj-objs
+			result += TAB_2 + "sh:qualifiedMinCount " + minSubjObjs + " ;" + NL;
+			//TODO: calcolare previsione cardinalita max e mettere quella
+			result += TAB_2 + "sh:qualifiedMaxCount " + maxSubjObjs + " ;" + NL;
+
+			// severity del vincolo, di default viene messo tutto come Warning
+			result += TAB_2 + "sh:severity sh:Warning ;" + NL;
+
+			// cardinalita inverse
+			result += TAB_2 + "sh:property [" + NL;
+			result += TAB_3 + "sh:path [ sh:inversePath " + property + " ; ];" + NL;
+			// result += TAB_3 + "sh:name \"%subj_prop_obj_inverse?%\" ;" + NL;
+			// result += TAB_3 + "sh:description \"%subj_prop_obj subjs-obj?%\" ;" + NL;
+			result += TAB_3 + "sh:message \"Vincolo cardinalita inversa (subjs-obj) violato\" ;" + NL;
+			result += TAB_3 + "sh:class " + subject + " ;" + NL;
+			result += TAB_3 + "sh:minCount " + minSubjsObj + " ;" + NL;
+			//TODO: calcolare previsione cardinalita max e mettere quella
+			result += TAB_3 + "sh:maxCount " + maxSubjsObj + " ;" + NL;
+
+			// severity del vincolo, di default viene messo tutto come Warning
+			result += TAB_3 + "sh:severity sh:Warning ;" + NL;
+
+			// chiusura cardinalita inverse
+			result += TAB_2 + "];" + NL;
+
+			// chiusura proprieta
+			result += TAB_1 + "];" + NL;
+
+			// chiusura shape 
+			result += "." + NL + NL;
+
+			// creo shacl file del pattern
+			outputManager.write(Helper.generateFilename(subject, property, object), result);
+			// System.out.println(result);
+			// System.out.println(subject + " " + property + " " + object);
+		}
+
+		predictedCardinalities.close();
+	}
+
+	/**
+	 *  Metodo che genera un file shacl con una shape per ogni pattern <subject, property, object> presente in patternCardinalities.txt .
+	 *  @param inPath percorso in cui sono contenuti i file del summary
+	 *  @param outPath percorso in cui si intendono salvare il file shacl generato
+	 *   */
+	public static void generateOneShacl(String inPath, String outPath) throws FileNotFoundException {
+		// TODO: spostare codice duplicato in funzione privata
+		// TODO: sistemare prefissi
 		OutputManager outputManager = new OutputManager(outPath);
 		// false=true per ottimizzare evitando il caricamento in memoria e l'aggregazione dei pattern
 		Helper helper = new Helper(inPath, false);
@@ -151,10 +295,10 @@ public class ShaclGenerator {
 		String maxSubjObjs = null;
 		String avgSubjObjs = null;
 
-		Scanner patternCardinalities = new Scanner(new File(inPath + "patternCardinalities.txt"));
-
+		Scanner patternCardinalities = new Scanner(new File(inPath + "/patternCardinalities.txt"));
+		result = "";
 		while (patternCardinalities.hasNextLine()) {
-			result = "";
+
 			// System.out.println(patternCardinalities.nextLine());
 
 			// subject##property##object## minSubjsObj-maxSubjsObj-avgSubjsObj-minSubjObjs-maxSubjObjs-avgSubjObjs
@@ -206,7 +350,7 @@ public class ShaclGenerator {
 			result += subject + " a sh:NodeShape;" + NL;
 			result += TAB_1 + "sh:targetClass " + subject + " ;" + NL;
 
-			
+
 			//System.out.println(TAB_2 + object);
 
 			// Costruisco sh:Property
@@ -216,7 +360,7 @@ public class ShaclGenerator {
 			result += TAB_2 + "sh:message \"Vincolo cardinalita diretta (subj-objs) violato\" ;" + NL;
 			result += TAB_2 + "sh:path " + property + " ;" + NL;
 			// result += TAB_2 + "sh:nodeKind sh:IRI;" + NL; // ridondante
-			
+
 			// ogni object a cui punta la property corrisponde a una partizione sh:qualifiedValueShape
 			if(helper.isDatatype(object)) {
 				result += TAB_2 + "sh:qualifiedValueShape [ sh:datatype " + object + " ; ];" + NL;
@@ -224,8 +368,8 @@ public class ShaclGenerator {
 			else {
 				result += TAB_2 + "sh:qualifiedValueShape [ sh:class " + object + " ; ];" + NL;
 			}
-			
-			 
+
+
 			// cardinalita subj-objs
 			result += TAB_2 + "sh:qualifiedMinCount " + minSubjObjs + " ;" + NL;
 			//TODO: calcolare previsione cardinalita max e mettere quella
@@ -257,14 +401,83 @@ public class ShaclGenerator {
 			// chiusura shape 
 			result += "." + NL + NL;
 
-			// creo shacl file del pattern
-			outputManager.write(Helper.generateFilename(subject, property, object), result);
 			// System.out.println(result);
 			// System.out.println(subject + " " + property + " " + object);
 		}
 
+		// creo shacl file del pattern
+		outputManager.write("oneShacl.ttl", result);
+
 		patternCardinalities.close();
 	}
 
+	public static void simulatePrediction(String patternsPath) throws FileNotFoundException {
+		
+		OutputManager outputManager = new OutputManager(patternsPath);
+
+		String line; 
+		String[] splittedLine;
+		String[] splittedCardinalities;
+		String akp;
+		
+		int minSubjsObj;
+		int maxSubjsObj;
+		int avgSubjsObj;
+		int minSubjObjs;
+		int maxSubjObjs;
+		int avgSubjObjs;
+		int maxSubjsObjPredicted;
+		int maxSubjObjsPredicted;
+		
+		Scanner patternCardinalities = new Scanner(new File(patternsPath + "/patternCardinalities.txt"));
+		
+		String result = "";
+		
+		while (patternCardinalities.hasNextLine()) {
+
+			// subject##property##object## maxSubjsObjPredicted-maxSubjObjsPredicted
+			line = patternCardinalities.nextLine(); 
+
+			splittedLine = line.split(" ");
+
+			// estraggo tripla <S, P, O> 
+			akp = splittedLine[0];
+
+			// divido la sezione delle cardinalita
+			splittedCardinalities = splittedLine[1].split("-");
+			// estraggo cardinalita
+			minSubjsObj = Integer.parseInt(splittedCardinalities[0]);
+			maxSubjsObj = Integer.parseInt(splittedCardinalities[1]);
+			avgSubjsObj = Integer.parseInt(splittedCardinalities[2]);
+			minSubjObjs = Integer.parseInt(splittedCardinalities[3]);
+			maxSubjObjs = Integer.parseInt(splittedCardinalities[4]);
+			avgSubjObjs = Integer.parseInt(splittedCardinalities[5]);
+			
+			// simulo previsione
+			if(maxSubjsObj > 2 * avgSubjsObj) {
+				maxSubjsObjPredicted = 2 * avgSubjsObj;
+			} 
+			else {
+				maxSubjsObjPredicted = maxSubjsObj;
+			}
+			
+			if(maxSubjObjs > 2 * avgSubjObjs) {
+				maxSubjObjsPredicted = 2 * avgSubjObjs;
+			} 
+			else {
+				maxSubjObjsPredicted = maxSubjObjs;
+			}
+			
+			result += akp + " " + maxSubjsObjPredicted + "-" + maxSubjObjsPredicted;
+			if(patternCardinalities.hasNextLine())
+				result += NL;
+
+		}
+
+		// creo file delle cardinalita previste
+		outputManager.write("predictedCardinalities.txt", result);
+
+		patternCardinalities.close();
+	}
 
 }
