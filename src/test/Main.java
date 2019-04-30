@@ -19,12 +19,6 @@ public class Main {
 		
 		// Test generator
 		testGenerateShacl("./pattern/", "./shapes/");
-		
-		// Test grouped generator
-		//testGenerateGroupedShacl("./pattern/", "./shapes/");
-		
-		// Test one shacl generator
-		//testGenerateOneShacl("./pattern/", "./shapes/");
 				
 		// Test validator by path
 		testValidateDataPathSchemaPath("./data/dataset_demo.ttl", "./shapes/shape_demo.ttl", "./reports/report_demo.ttl");
@@ -39,46 +33,12 @@ public class Main {
 		
 	}
 
-	public static void testGenerateGroupedShacl(String inPath, String outPath) {
-		System.out.println("Shacl grouped generator");
-		long startTime = System.currentTimeMillis();
-
-		try {
-			ShaclGenerator._old_generateGroupedShacl("./pattern/", "./shapes/");
-
-		} catch (FileNotFoundException e) {
-			System.out.println("\tExecution failed.");
-			e.printStackTrace();
-		}
-
-		long endTime = System.currentTimeMillis();
-		System.out.println("\tExecution time: " + (endTime - startTime) + "ms");
-
-	}
-
 	public static void testGenerateShacl(String inPath, String outPath) {
 		System.out.println("Shacl generator");
 		long startTime = System.currentTimeMillis();
 
 		try {
 			ShaclGenerator.generateShacl(inPath, outPath);
-
-		} catch (FileNotFoundException e) {
-			System.out.println("\tExecution failed.");
-			e.printStackTrace();
-		}
-
-		long endTime = System.currentTimeMillis();
-		System.out.println("\tExecution time: " + (endTime - startTime) + "ms");
-
-	}
-	
-	public static void testGenerateOneShacl(String inPath, String outPath) {
-		System.out.println("Shacl generator (all shapes in one file)");
-		long startTime = System.currentTimeMillis();
-
-		try {
-			ShaclGenerator._old_generateOneShacl(inPath, outPath);
 
 		} catch (FileNotFoundException e) {
 			System.out.println("\tExecution failed.");
