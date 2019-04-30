@@ -18,6 +18,11 @@ public class Helper {
 	// <url, prefix>
 	private Map<String, String> prefixes;
 
+	/**
+	 * Constructor
+	 * @param path pattern path
+	 * @throws FileNotFoundException
+	 */
 	public Helper(String path) throws FileNotFoundException {
 
 		datatypes = new HashMap<String, Integer>();
@@ -33,6 +38,11 @@ public class Helper {
 		initConcepts(path);
 	}
 
+	/**
+	 * Load <concept, occurrencies> from count-concepts.txt
+	 * @param path pattern path
+	 * @throws FileNotFoundException
+	 */
 	private void initConcepts(String path) throws FileNotFoundException {
 
 		String line; 
@@ -57,6 +67,11 @@ public class Helper {
 		countConcepts.close();
 	}
 
+	/**
+	 * Load <datatype, occurrencies> from count-datatype.txt
+	 * @param path pattern path
+	 * @throws FileNotFoundException
+	 */
 	private void initDatatypes(String path) throws FileNotFoundException {
 
 		String line; 
@@ -81,23 +96,27 @@ public class Helper {
 		countDatatypes.close();
 	}
 
+	/**
+	 * Load <namespace, prefix> from prefixes.txt
+	 * @throws FileNotFoundException
+	 */
 	private void initPrefixes() throws FileNotFoundException {
 
 		String line;
 		String[] splittedLine;
-		String url;
+		String namespace;
 		String prefix;
 
 		Scanner prefixes = new Scanner(new File("./prefixes/prefixes.txt"));
 
 		while(prefixes.hasNextLine()) {
-			// url prefix
+			// namespace prefix
 			line = prefixes.nextLine();
 			splittedLine = line.split(" ");
-			url = splittedLine[0];
+			namespace = splittedLine[0];
 			prefix = splittedLine[1];
 
-			this.addPrefix(url, prefix);
+			this.addPrefix(namespace, prefix);
 
 		}
 
@@ -116,10 +135,20 @@ public class Helper {
 		prefixes.put(url, prefix);
 	}
 
+	/**
+	 * Takes an url and returns its prefix
+	 * @param url
+	 * @return prefix
+	 */
 	public String getPrefix(String url) {
 		return prefixes.get(url);
 	}
 
+	/**
+	 * Takes an uri and returns its namespace
+	 * @param uri
+	 * @return namespace
+	 */
 	public static String extractNamespace(String uri) {
 		// CASE 1 uri = http://example.org/.../resource
 		// CASE 2 uri = http://example.org/.../resource#name
@@ -149,6 +178,11 @@ public class Helper {
 		return result;
 	}
 
+	/**
+	 * Takes an uri and converts it to prefix:name
+	 * @param uri
+	 * @return prefix:name
+	 */
 	public String convertURI(String uri) {		
 		String namespace = extractNamespace(uri);
 		String name = uri.replace(namespace, "");
@@ -164,6 +198,13 @@ public class Helper {
 		return datatypes.containsKey(str);	
 	}
 	
+	/**
+	 * Takes a triple subject, property, object and generate a filename
+	 * @param subject
+	 * @param property
+	 * @param object
+	 * @return filename
+	 */
 	public static String generateFilename(String subject, String property, String object) {
 		return subject.replace(":", "#") + "##" + property.replace(":", "#") + "##" + object.replace(":", "#") + ".ttl";
 	}

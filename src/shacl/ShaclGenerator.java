@@ -21,6 +21,12 @@ public class ShaclGenerator {
 	private static final String TAB_3 = "\t\t\t";
 	private static final String NL = "\n";
 
+	/**
+	 * Generates a shacl file (.ttl) for each pattern read from predictedCardinalities.txt
+	 * @param patternsPath
+	 * @param outPath
+	 * @throws FileNotFoundException
+	 */
 	public static void generateShacl(String patternsPath, String outPath) throws FileNotFoundException {
 
 		OutputManager outputManager = new OutputManager(outPath);

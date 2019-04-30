@@ -5,13 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-/** Classe che permette di validare dati attraverso shapes */
 public class ShaclValidator {
-	/** Metodo che effettua la validazione di dati locali tramite shapes locali.
+	/** Validates local dataset through local shapes
 	 * 
-	 * @param dataPath percorso file del dataset (in formato .ttl)
-	 * @param schemaPath percorso delle shapes (in formato .ttl)
-	 * @param reportPath percorso in cui salvare il validation report (in formato .ttl)
+	 * @param dataPath path of the dataset (.ttl / .nt format)
+	 * @param schemaPath path of the shapes (.ttl / .nt format)
+	 * @param reportPath path to save the validation report (.ttl format)
 	 * @throws IOException
 	 */
 	public static void validateDataPathSchemaPath(String dataPath, String schemaPath, String reportPath) throws IOException {
@@ -24,11 +23,11 @@ public class ShaclValidator {
 		runValidator(cmd);
 	}
 	
-	/** Metodo che effettua la validazione di dati da endpoint tramite shapes locali.
+	/** Validates dataset via endpoint through local shapes
 	 * 
-	 * @param dataEndpoint endpoint del dataset
-	 * @param schemaPath percorso delle shapes (in formato .ttl)
-	 * @param reportPath percorso in cui salvare il validation report (in formato .ttl)
+	 * @param dataEndpoint endpoint of the dataset
+	 * @param schemaPath path of the shapes (.ttl / .nt format)
+	 * @param reportPath path to save the validation report (.ttl format)
 	 * @throws IOException
 	 */
 	public static void validateDataEndpointSchemaPath(String dataEndopoint, String schemaPath, String reportPath) throws IOException {
@@ -49,7 +48,7 @@ public class ShaclValidator {
 		Process pr = rt.exec(cmd);
 
 
-		// stampo output validazione
+		// print process output 
 		String line;
 		BufferedReader input = new BufferedReader(new InputStreamReader(pr.getInputStream()));  
 
@@ -64,7 +63,7 @@ public class ShaclValidator {
 	}
 
 	/**
-	 * Test validazione scorrendo tutti i file shape.ttl
+	 * Test 
 	 * @param dataPath
 	 * @param schemaFolderPath
 	 * @param reportFolderPath
