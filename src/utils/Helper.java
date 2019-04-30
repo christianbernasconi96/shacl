@@ -107,7 +107,7 @@ public class Helper {
 		String namespace;
 		String prefix;
 
-		Scanner prefixes = new Scanner(new File("./prefixes/prefixes.txt"));
+		Scanner prefixes = new Scanner(new File("./prefixes.txt"));
 
 		while(prefixes.hasNextLine()) {
 			// namespace prefix
