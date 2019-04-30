@@ -13,7 +13,6 @@ import utils.OutputManager;
 
 import utils.Helper;
 
-/** Classe che permette di generare file shacl a partire dai dati di un summary */
 public class ShaclGenerator {
 
 	// chars shortcuts
