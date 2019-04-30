@@ -1,7 +1,7 @@
 package shacl;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.util.HashSet;
 //import java.io.PrintWriter;
 //import java.util.Map;
@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import utils.OutputManager;
-import utils.Stats;
+
 import utils.Helper;
 
 /** Classe che permette di generare file shacl a partire dai dati di un summary */
