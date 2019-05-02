@@ -38,7 +38,8 @@ public class Main {
 		long startTime = System.currentTimeMillis();
 
 		try {
-			ShaclGenerator.generateShacl(inPath, outPath);
+			ShaclGenerator shaclGenerator = new ShaclGenerator(inPath, outPath);
+			shaclGenerator.generateShacl();
 
 		} catch (FileNotFoundException e) {
 			System.out.println("\tExecution failed.");
