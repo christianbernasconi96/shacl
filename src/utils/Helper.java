@@ -50,7 +50,7 @@ public class Helper {
 		String concept;
 		int occurrencies = 0;
 
-		Scanner countConcepts = new Scanner(new File(path + "count-concepts.txt"));
+		Scanner countConcepts = new Scanner(new File(path + "/count-concepts.txt"));
 
 		while (countConcepts.hasNextLine()) {
 			// concept##occurrencies
@@ -79,7 +79,7 @@ public class Helper {
 		String datatype;
 		int occurrencies = 0;
 
-		Scanner countDatatypes = new Scanner(new File(path + "count-datatype.txt"));
+		Scanner countDatatypes = new Scanner(new File(path + "/count-datatype.txt"));
 
 		while (countDatatypes.hasNextLine()) {
 			// concept##occurrencies
