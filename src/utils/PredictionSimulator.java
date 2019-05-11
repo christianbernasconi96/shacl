@@ -33,10 +33,10 @@ public class PredictionSimulator {
 
 			akp = splittedLine[0] + "##" + splittedLine[1] + "##" + splittedLine[2];
 
-			maxSubjsObj = Integer.parseInt(splittedLine[4]);
-			avgSubjsObj = Integer.parseInt(splittedLine[5]);
-			maxSubjObjs = Integer.parseInt(splittedLine[7]);
-			avgSubjObjs = Integer.parseInt(splittedLine[8]);
+			maxSubjsObj = Integer.parseInt(splittedLine[3]);
+			avgSubjsObj = Integer.parseInt(splittedLine[4]);
+			maxSubjObjs = Integer.parseInt(splittedLine[6]);
+			avgSubjObjs = Integer.parseInt(splittedLine[7]);
 
 			// prediction
 			maxSubjsObjPredicted = maxSubjsObj > 2 * avgSubjsObj ? 2 * avgSubjsObj : maxSubjsObj;
